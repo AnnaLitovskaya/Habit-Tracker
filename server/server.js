@@ -1,10 +1,9 @@
 const express = require('express');
 const app = express();
-const {
-  syncAndSeed,
-  db,
-  models: { Habit, Day, Check },
-} = require('./db');
+const { syncAndSeed, db } = require('./db');
+const router = require('./router');
+
+app.use('/api', router);
 
 const init = async () => {
   try {

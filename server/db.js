@@ -88,4 +88,4 @@ const syncAndSeed = async () => {
   }
 };
 
-module.exports = { syncAndSeed, db, models: { Habit, Day, Check } };
+module.exports = { syncAndSeed, db, model: { Habit, Day, Check } };
