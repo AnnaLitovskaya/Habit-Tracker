@@ -16,6 +16,11 @@ const Habit = db.define('habit', {
 });
 
 const Day = db.define('day', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -64,14 +69,14 @@ const syncAndSeed = async () => {
         'Study',
       ].map((name) => Habit.create({ name })),
       [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ].map((name) => Day.create({ name }))
+        ['Monday', 0],
+        ['Tuesday', 1],
+        ['Wednesday', 2],
+        ['Thursday', 3],
+        ['Friday', 4],
+        ['Saturday', 5],
+        ['Sunday', 6],
+      ].map((day) => Day.create({ name: day[0], id: day[1] }))
     );
     Check.bulkCreate([
       { check: true, dayId: 3, habitId: 2 },

@@ -6,11 +6,7 @@ const {
 
 router.get('/habits', async (req, res, next) => {
   try {
-    const habitList = await Habit.findAll({
-      include: {
-        model: Check,
-      },
-    });
+    const habitList = await Habit.findAll();
     res.send(habitList);
   } catch (ex) {
     next(ex);
@@ -20,11 +16,18 @@ router.get('/habits', async (req, res, next) => {
 router.get('/days', async (req, res, next) => {
   try {
     const dayList = await Day.findAll({
-      include: {
-        model: Check,
-      },
+      order: ['id'],
     });
     res.send(dayList);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+router.get('/checks', async (req, res, next) => {
+  try {
+    const checkList = await Check.findAll();
+    res.send(checkList);
   } catch (ex) {
     next(ex);
   }
