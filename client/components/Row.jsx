@@ -10,15 +10,20 @@ const Row = (props) => {
               <button>X</button>
               {habit.name}
             </th>
-            {props.days.map((day, idx1) => {
-              props.checks.map((check, idx2) => {
-                console.log(check);
-                // <th key={(idx1, idx2)}>
-                //   {check.dayId === day.id && habit.id === check.habitId
-                //     ? 'X'
-                //     : 'O'}
-                // </th>;
-              });
+            {props.days.map((day, dayIdx) => {
+              return (
+                <th className={`grid h${habit.id} d${dayIdx}`} key={dayIdx}>
+                  {habit.checks.map((check, idx) => {
+                    return (
+                      <span key={idx} className={`h${habit.id} d${dayIdx}`}>
+                        {check.dayId === day.id && check.check === true
+                          ? 'X'
+                          : ''}
+                      </span>
+                    );
+                  })}
+                </th>
+              );
             })}
           </tr>
         );

@@ -16,7 +16,7 @@ const Table = (props) => {
           ))}
         </tr>
       </thead>
-      <Row days={props.days} habits={props.habits} checks={props.checks} />
+      <Row days={props.days} habits={props.habits} />
     </table>
   );
 };

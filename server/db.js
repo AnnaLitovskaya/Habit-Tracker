@@ -3,7 +3,7 @@ const db = new Sequelize(
   process.env.DATABASE_URL || 'postgres://localhost/habit_tracker',
   { logging: false }
 );
-const { DataTypes } = Sequelize;
+const { DataTypes, Op } = Sequelize;
 
 const Habit = db.define('habit', {
   name: {
@@ -93,4 +93,4 @@ const syncAndSeed = async () => {
   }
 };
 
-module.exports = { syncAndSeed, db, model: { Habit, Day, Check } };
+module.exports = { Op, syncAndSeed, db, model: { Habit, Day, Check } };
