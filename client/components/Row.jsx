@@ -42,7 +42,7 @@ const Row = (props) => {
       })}
       <tr>
         {/* input text box and button */}
-        <th>
+        <th id="add">
           <input id="textBox" type="text" placeholder="New Habit"></input>
           <button id="addButton">Add</button>
         </th>

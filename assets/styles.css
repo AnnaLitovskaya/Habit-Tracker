@@ -45,6 +45,15 @@ table {
   margin-right: 1rem;
 }
 
+#add {
+  display: flex;
+}
+
+button {
+  background-color: rgba(240, 250, 255, 1);
+  border-color: rgb(71, 93, 107);
+}
+
 /* This code is copied and pasted from the interwebs */
 th.rotate {
   height: 140px;
