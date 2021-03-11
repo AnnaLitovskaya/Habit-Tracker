@@ -8,34 +8,7 @@ class Main extends Component {
     this.state = {
       days: [],
       habits: [],
-      checks: [],
     };
-    this.initializeGrid = this.initializeGrid.bind(this);
-  }
-
-  async initializeGrid() {
-    this.setState({ days, habits });
-    let grid = [...document.querySelectorAll('.grid')];
-    grid.forEach((box) => {
-      box.addEventListener('click', async (ev) => {
-        let classes = ev.target.classList;
-        let habitIdx = 0;
-        let dayIdx = 0;
-        classes.forEach((_class) => {
-          if (_class.startsWith('h')) {
-            habitIdx = _class.slice(1);
-          } else if (_class.startsWith('d')) {
-            dayIdx = _class.slice(1);
-          }
-        });
-        await axios.put(`/api/checks/${habitIdx}/${dayIdx}`);
-        let [days, habits] = await Promise.all([
-          (await axios.get(`/api/days`)).data,
-          (await axios.get(`/api/habits`)).data,
-        ]);
-        this.setState({ days, habits });
-      });
-    });
   }
 
   async componentDidMount() {
@@ -45,7 +18,28 @@ class Main extends Component {
     ]);
     this.setState({ days, habits });
 
-    await this.initializeGrid();
+    let grid = [...document.querySelectorAll('.grid')];
+    const gridClicks = async (ev) => {
+      let classes = ev.target.classList;
+      let habitIdx = 0;
+      let dayIdx = 0;
+      classes.forEach((_class) => {
+        if (_class.startsWith('h')) {
+          habitIdx = _class.slice(1);
+        } else if (_class.startsWith('d')) {
+          dayIdx = _class.slice(1);
+        }
+      });
+      await axios.put(`/api/checks/${habitIdx}/${dayIdx}`);
+      [days, habits] = await Promise.all([
+        (await axios.get(`/api/days`)).data,
+        (await axios.get(`/api/habits`)).data,
+      ]);
+      this.setState({ days, habits });
+    };
+    grid.forEach((box) => {
+      box.addEventListener('click', gridClicks);
+    });
 
     let input = document.querySelector('#textBox');
     let button = document.querySelector('#addButton');
@@ -56,7 +50,14 @@ class Main extends Component {
         (await axios.get(`/api/habits`)).data,
       ]);
       this.setState({ days, habits });
-      await this.initializeGrid();
+
+      grid = [...document.querySelectorAll('.grid')];
+      grid.forEach((box) => {
+        box.removeEventListener('click', gridClicks);
+      });
+      grid.forEach((box) => {
+        box.addEventListener('click', gridClicks);
+      });
     });
   }
 
