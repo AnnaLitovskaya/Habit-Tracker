@@ -10,19 +10,15 @@ class Main extends Component {
       habits: [],
       checks: [],
     };
+    this.initializeGrid = this.initializeGrid.bind(this);
   }
 
-  async componentDidMount() {
-    let [days, habits] = await Promise.all([
-      (await axios.get(`/api/days`)).data,
-      (await axios.get(`/api/habits`)).data,
-    ]);
+  async initializeGrid() {
     this.setState({ days, habits });
-
-    const grid = [...document.querySelectorAll('.grid')];
+    let grid = [...document.querySelectorAll('.grid')];
     grid.forEach((box) => {
       box.addEventListener('click', async (ev) => {
-        const classes = ev.target.classList;
+        let classes = ev.target.classList;
         let habitIdx = 0;
         let dayIdx = 0;
         classes.forEach((_class) => {
@@ -33,12 +29,34 @@ class Main extends Component {
           }
         });
         await axios.put(`/api/checks/${habitIdx}/${dayIdx}`);
-        [days, habits] = await Promise.all([
+        let [days, habits] = await Promise.all([
           (await axios.get(`/api/days`)).data,
           (await axios.get(`/api/habits`)).data,
         ]);
         this.setState({ days, habits });
       });
+    });
+  }
+
+  async componentDidMount() {
+    let [days, habits] = await Promise.all([
+      (await axios.get(`/api/days`)).data,
+      (await axios.get(`/api/habits`)).data,
+    ]);
+    this.setState({ days, habits });
+
+    await this.initializeGrid();
+
+    let input = document.querySelector('#textBox');
+    let button = document.querySelector('#addButton');
+    button.addEventListener('click', async () => {
+      await axios.post(`/api/habits/${input.value}`);
+      [days, habits] = await Promise.all([
+        (await axios.get(`/api/days`)).data,
+        (await axios.get(`/api/habits`)).data,
+      ]);
+      this.setState({ days, habits });
+      await this.initializeGrid();
     });
   }
 

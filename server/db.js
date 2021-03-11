@@ -35,11 +35,6 @@ const Check = db.define('check', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false,
-  },
-  check: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
   },
 });
 
@@ -49,8 +44,6 @@ Habit.belongsToMany(Day, {
 Day.belongsToMany(Habit, {
   through: 'check',
 });
-Check.belongsTo(Day);
-Check.belongsTo(Habit);
 Day.hasMany(Check);
 Habit.hasMany(Check);
 
@@ -79,14 +72,14 @@ const syncAndSeed = async () => {
       ].map((day) => Day.create({ name: day[0], id: day[1] }))
     );
     Check.bulkCreate([
-      { check: true, dayId: 3, habitId: 2 },
-      { check: true, dayId: 5, habitId: 5 },
-      { check: true, dayId: 1, habitId: 8 },
-      { check: true, dayId: 6, habitId: 1 },
-      { check: true, dayId: 2, habitId: 6 },
-      { check: true, dayId: 6, habitId: 4 },
-      { check: true, dayId: 4, habitId: 2 },
-      { check: true, dayId: 3, habitId: 1 },
+      { dayId: 3, habitId: 2 },
+      { dayId: 5, habitId: 5 },
+      { dayId: 1, habitId: 8 },
+      { dayId: 6, habitId: 1 },
+      { dayId: 2, habitId: 6 },
+      { dayId: 6, habitId: 4 },
+      { dayId: 4, habitId: 2 },
+      { dayId: 3, habitId: 1 },
     ]);
   } catch (ex) {
     console.log(ex);

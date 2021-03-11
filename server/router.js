@@ -30,6 +30,15 @@ router.get('/days', async (req, res, next) => {
   }
 });
 
+router.get('/checks', async (req, res, next) => {
+  try {
+    const checkList = await Day.findAll();
+    res.send(checkList);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 router.put('/checks/:habitIdx/:dayIdx', async (req, res, next) => {
   try {
     let local = await Check.findAll({
@@ -40,46 +49,26 @@ router.put('/checks/:habitIdx/:dayIdx', async (req, res, next) => {
         ],
       },
     });
-
     if (local.length === 0) {
-      local = await Check.create({
+      await Check.create({
         habitId: req.params.habitIdx,
         dayId: req.params.dayIdx,
-        check: true,
       });
     } else {
-      if (local[0].check === true) {
-        await Check.update(
-          {
-            check: false,
-          },
-          {
-            where: {
-              [Op.and]: [
-                { habitId: req.params.habitIdx },
-                { dayId: req.params.dayIdx },
-              ],
-            },
-          }
-        );
-      } else {
-        await Check.update(
-          {
-            check: true,
-          },
-          {
-            where: {
-              [Op.and]: [
-                { habitId: req.params.habitIdx },
-                { dayId: req.params.dayIdx },
-              ],
-            },
-          }
-        );
-      }
+      await local[0].destroy();
     }
-
     res.send(local);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+router.post('/habits/:habit', async (req, res, next) => {
+  try {
+    const newHabit = await Habit.create({
+      name: req.params.habit,
+    });
+    res.send(newHabit);
   } catch (ex) {
     next(ex);
   }

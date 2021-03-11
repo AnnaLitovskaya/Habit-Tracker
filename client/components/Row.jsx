@@ -16,9 +16,7 @@ const Row = (props) => {
                   {habit.checks.map((check, idx) => {
                     return (
                       <span key={idx} className={`h${habit.id} d${dayIdx}`}>
-                        {check.dayId === day.id && check.check === true
-                          ? 'X'
-                          : ''}
+                        {check.dayId === day.id ? 'X' : ''}
                       </span>
                     );
                   })}
@@ -28,6 +26,12 @@ const Row = (props) => {
           </tr>
         );
       })}
+      <tr>
+        <th>
+          <input id="textBox" type="text" placeholder="New Habit"></input>
+          <button id="addButton">Add</button>
+        </th>
+      </tr>
     </tbody>
   );
 };
