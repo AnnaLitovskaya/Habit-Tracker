@@ -12,12 +12,14 @@ class Main extends Component {
   }
 
   async componentDidMount() {
+    //initial set state loads the grid
     let [days, habits] = await Promise.all([
       (await axios.get(`/api/days`)).data,
       (await axios.get(`/api/habits`)).data,
     ]);
     this.setState({ days, habits });
 
+    //adds event listeners on all the grid boxes
     let grid = [...document.querySelectorAll('.grid')];
     const gridClicks = async (ev) => {
       let classes = ev.target.classList;
@@ -41,6 +43,7 @@ class Main extends Component {
       box.addEventListener('click', gridClicks);
     });
 
+    //adds event listener to the input box
     let input = document.querySelector('#textBox');
     let button = document.querySelector('#addButton');
     button.addEventListener('click', async () => {
@@ -50,7 +53,7 @@ class Main extends Component {
         (await axios.get(`/api/habits`)).data,
       ]);
       this.setState({ days, habits });
-
+      //updates the event listeners to include the new row
       grid = [...document.querySelectorAll('.grid')];
       grid.forEach((box) => {
         box.removeEventListener('click', gridClicks);
