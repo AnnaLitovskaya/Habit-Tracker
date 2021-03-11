@@ -43,7 +43,23 @@ class Main extends Component {
       box.addEventListener('click', gridClicks);
     });
 
-    //adds event listener to the input box
+    //adds event listeners to the delete buttons
+    let deleteButtons = [...document.querySelectorAll('.delete')];
+    const deleteClicks = async (ev) => {
+      let habitClass = ev.target.classList;
+      habitClass.remove('delete');
+      await axios.delete(`/api/habits/${habitClass.value}`);
+      [days, habits] = await Promise.all([
+        (await axios.get(`/api/days`)).data,
+        (await axios.get(`/api/habits`)).data,
+      ]);
+      this.setState({ days, habits });
+    };
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', deleteClicks);
+    });
+
+    //adds event listener to the text box and button
     let input = document.querySelector('#textBox');
     let button = document.querySelector('#addButton');
     button.addEventListener('click', async () => {
@@ -53,13 +69,22 @@ class Main extends Component {
         (await axios.get(`/api/habits`)).data,
       ]);
       this.setState({ days, habits });
-      //updates the event listeners to include the new row
+      input.value = '';
+      //updates the event listeners in the grid to include new row
       grid = [...document.querySelectorAll('.grid')];
       grid.forEach((box) => {
         box.removeEventListener('click', gridClicks);
       });
       grid.forEach((box) => {
         box.addEventListener('click', gridClicks);
+      });
+      //updates event listeners for new row delete button
+      deleteButtons = [...document.querySelectorAll('.delete')];
+      deleteButtons.forEach((button) => {
+        button.removeEventListener('click', deleteClicks);
+      });
+      deleteButtons.forEach((button) => {
+        button.addEventListener('click', deleteClicks);
       });
     });
   }

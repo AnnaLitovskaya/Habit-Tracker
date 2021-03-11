@@ -1,29 +1,60 @@
 body {
-  font-family: verdana;
+  font-family: cursive;
+  background-image: url(./Stars.png);
+  background-size: cover;
+  background-position: center;
 }
 
+tr {
+  text-align: left;
+  height: 35px;
+}
+
+.grid {
+  border: 1px solid darkgray;
+  text-align: center;
+  width: 35px;
+}
+
+#app div {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: monospace;
+  color: rgb(71, 93, 107);
+  text-align: center;
+  margin-bottom: 40px;
+  text-decoration: underline;
+  font-size: 4rem;
+}
+
+table {
+  width: 50%;
+  align-self: center;
+  background-color: rgba(240, 250, 255, 0.3);
+  padding-right: 140px;
+  padding-left: 140px;
+  padding-bottom: 120px;
+  border-radius: 20%;
+  border: whitesmoke solid 3px;
+}
+
+.delete {
+  margin-right: 1rem;
+}
+
+/* This code is copied and pasted from the interwebs */
 th.rotate {
-  /* Something you can count on */
   height: 140px;
   white-space: nowrap;
 }
 
 th.rotate > div {
-  transform:
-    /* Magic Numbers */ translate(25px, 51px)
-    /* 45 is really 360 - 45 */ rotate(315deg);
-  width: 30px;
+  transform: translate(25px, 51px) rotate(315deg);
+  width: 35px;
 }
 th.rotate > div > span {
-  border-bottom: 1px solid #ccc;
-  /* padding: 5px 10px; */
-}
-
-tr {
-  text-align: left;
-}
-
-.grid {
-  border: 1px solid #ccc;
-  text-align: center;
+  border-bottom: 1px solid darkgray;
 }

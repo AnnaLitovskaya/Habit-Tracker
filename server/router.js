@@ -74,4 +74,14 @@ router.post('/habits/:habit', async (req, res, next) => {
   }
 });
 
+router.delete('/habits/:id', async (req, res, next) => {
+  try {
+    const deleteHabit = await Habit.findByPk(req.params.id);
+    await deleteHabit.destroy();
+    res.send();
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = router;

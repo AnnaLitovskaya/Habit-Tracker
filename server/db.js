@@ -38,12 +38,6 @@ const Check = db.define('check', {
   },
 });
 
-// Habit.belongsToMany(Day, {
-//   through: 'check',
-// });
-// Day.belongsToMany(Habit, {
-//   through: 'check',
-// });
 Day.hasMany(Check);
 Habit.hasMany(Check);
 
